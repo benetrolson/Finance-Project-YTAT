@@ -158,3 +158,11 @@ def inputchecker(rangeofchoices):
                     continue
            
     return choicevar
+
+
+def gummysint(usernum):
+    while True:
+        if usernum.isdigit():
+            return int(usernum)
+        else:
+            usernum = input("Please enter a valid number:\n")
