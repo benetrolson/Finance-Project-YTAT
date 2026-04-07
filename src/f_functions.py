@@ -7,21 +7,18 @@ def view_entries(user):
 
     choice = inputchecker(4)
 
-    if choice == 1:
-        incomes = user.income.keys()
-        for income in incomes:
-            print(incomes[income])
-    elif choice == 2:
-        expenses = user.expense.keys()
-        for expense in expenses:
-            print(expenses[expense])
-    elif choice == 3:
-        savings = user.saving.keys()
-        for saving in savings:
-            print(savings[saving])
-    elif choice == 4:
-        entries = user.income.keys() + user.expense.keys() + user.saving.keys()
-        for entry in entries:
-            print(entries[entry])
-    else:
-        print("Invalid choice. Please try again.")
+    for entry in user.entries:
+        if choice == 1 and entry.type == "income":
+            print(entry.name)
+            print(f"  {entry.amount}\n  {entry.date}\n  {entry.category}")
+        elif choice == 2 and entry.type == "expense":
+            print(entry.name)
+            print(f"  {entry.amount}\n  {entry.date}\n  {entry.category}")
+        elif choice == 3 and entry.type == "saving":
+            print(entry.name)
+            print(f"  {entry.amount}\n  {entry.date}\n  {entry.goal_date}\n  {entry.category}")
+        elif choice == 4:
+            print(f"{entry.name} : {entry.type}")
+            print(f"  {entry.amount}\n  {entry.date}\n  {entry.category}")
+        else:
+            pass
