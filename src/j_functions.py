@@ -8,10 +8,11 @@ def bargraph(Categories, expences):
         matplotlib.pyplot.ylabel('Expences')
         matplotlib.pyplot.show()
 
-def piegraph(inputexpences,InputCats):
+def piegraph(InputCats,inputexpences):
         fig = matplotlib.pyplot.figure(figsize=(10, 8))
         matplotlib.pyplot.pie(inputexpences, labels=InputCats)
 
         # show plot
         matplotlib.pyplot.show()
 
+piegraph(["Test1","Test2","Test3"],[100,120,300])
