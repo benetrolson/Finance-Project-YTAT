@@ -100,3 +100,18 @@ def listdictconvert(listitem):
         keypair = item.split(":")
         dictversion[keypair[0]] = keypair[1]
     return dictversion
+
+def inputchecker(rangeofchoices):
+    while True:
+            choicevar = input(f"Which one would you like to choose?(1~{rangeofchoices}):\n")
+            try:
+                choicevar = int(choicevar)
+                if choicevar in range(1, rangeofchoices+1):
+                    break
+                else:
+                    print("That's not an option :(")
+                    continue
+            except:
+                    continue
+           
+    return choicevar
