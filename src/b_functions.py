@@ -4,7 +4,16 @@ import bcrypt # pyright: ignore[reportMissingImports]
 
 def csv_to_dictionary(path):
     dictionary = csv_to_dict(path)
-    return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"]) # pyright: ignore[reportUndefinedVariable]
+    return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"])
+
+def dict_to_csv(budget, path):
+    dictionary = [{
+        "income": budget.income,
+        "expenses": budget.expenses,
+        "savings": budget.savings,
+        "currency": budget.current_currencies
+    }]
+    save_csv(dictionary, path)
 
 def pass_encoder(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -13,32 +22,7 @@ def pass_checker(password, hashed):
     return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def password():
-    passwords = [
-        "1234", 
-        "password", 
-        "qwerty", 
-        "123456", 
-        "123456789", 
-        "123467890", 
-        "0987654321", 
-        "111111", 
-        "p@ssw0rd", 
-        "123123", 
-        "p@$$w0rd", 
-        "5678", 
-        "abcdefghijklmnopqrstuvwxyz", 
-        "aBcDeFgHiJkLmNoPqRsTuVwXyZ", 
-        "AbCdEfGhIjKlMnOpQrStUvWxYz", 
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
-        "qwertyuiop", 
-        "asdfghjkl", 
-        "asdfghjkl;'", 
-        "zxcvbnm,./", 
-        "/.,mnbvcxz", 
-        "';lkjhgfdsa", 
-        "lkjhgfdsa", 
-        "poiuytrewq"
-        ]
+    passwords = ["1234", "password", "qwerty", "123456", "123456789", "123467890", "0987654321", "111111", "p@ssw0rd", "123123", "p@$$w0rd", "5678", "abcdefghijklmnopqrstuvwxyz", "aBcDeFgHiJkLmNoPqRsTuVwXyZ", "AbCdEfGhIjKlMnOpQrStUvWxYz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "qwertyuiop", "asdfghjkl", "asdfghjkl;'", "zxcvbnm,./", "/.,mnbvcxz", "';lkjhgfdsa", "lkjhgfdsa", "poiuytrewq"]
     #loop
     while True:
         #reset the strength to 0
@@ -128,8 +112,8 @@ def password():
         if check in ["yes",'y']:
             return password
 
-def user_creator():
-    dictionary = csv_to_dictionary("docs/accounts.csv")
+def user_creator(path):
+    dictionary = csv_to_dictionary(path)
     while True:
         created = False
         name = input("What will your username be? ")
@@ -142,19 +126,16 @@ def user_creator():
     user_password = password()
     user_password = pass_encoder(user_password)
     dictionary.append({'username': name, 'password': user_password, 'logged in': 'True'})
-    save_csv(dictionary, "docs\\accounts.csv")
-    file = csv_to_dictionary("docs/high_scores.csv")
-    file.append({'user': name, 'flesh cube': 0, 'remembrinator': 0, 'guesser bros lite': 0, 'turtarria': 0, 'the bank': 0, 'rock paper scissors': 0})
-    save_csv(file, "docs/high_scores.csv")
+    save_csv(dictionary, path)
     return name
 
-def user_sign_in():
-    dictionary = csv_to_dictionary("docs/accounts.csv")
+def user_sign_in(path):
+    dictionary = csv_to_dictionary(path)
     while True:
         username = input("Enter Username: ")
         for i in dictionary:
             if i["username"] == username:
-                save_csv(dictionary, "docs/accounts.csv")
+                save_csv(dictionary, path)
                 check = False
                 while not check:
                     password = input("Enter Password: \033[34m")
