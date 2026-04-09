@@ -15,12 +15,15 @@ def main():
             name = user_sign_in("docs/accounts.csv")
         elif check == "3":
             break
-        path = f"docs/{name}.csv"
-        if not os.path.exists(path):
-            with open(path, mode = 'w') as file:
-                writer = csv.writer(file)
-                writer.writerow(["name", "amount", "currency", "category"])
-                writer.writerow([{}, {}, {}, {}])
+        path = "docs/" + name + ".csv"
+        try:
+            if not os.path.exists(path):
+                with open(path, mode = 'w') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["name", "amount", "currency", "category"])
+                    writer.writerow([{}, {}, {}, {}])
+        except Exception as e:
+            print(f"You had a(n) {e} error. ")
         user = csv_to_dictionary(path)
         while True:
             check = choice_input(["1", "2", "3", "4", "5", "6"], "Would you like to: \n1. View your entries \n2. Add an entry \n3. Delete an entry\n4. View statistics \n5. Change your currency \n6. Log out \n> ")
