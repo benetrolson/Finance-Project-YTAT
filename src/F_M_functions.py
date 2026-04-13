@@ -11,10 +11,11 @@ class Budget:
 	#2: expenses
 	#3: Savings
 	#4: current currency
-    def __init__(self):
-        self.incomes = {}
-        self.expenses = {}
-        self.savings = {}
+    def __init__(self, income, expenses, savings, current_currencies):
+        self.incomes = income
+        self.expenses = expenses
+        self.savings = savings
+        self.current_currencies = current_currencies
 
 	#addItem(self)
     def additem(self):
