@@ -1,5 +1,5 @@
 from helper import *
-from m_functions import *
+from F_M_functions import *
 import bcrypt # pyright: ignore[reportMissingImports]
 import pandas as pd # pyright: ignore[reportMissingModuleSource, ModuleNotFoundError]
 
@@ -115,9 +115,12 @@ def user_creator(path):
     while True:
         created = False
         name = input("What will your username be? ")
-        for i in dictionary:
-            if name == i["username"]:
-                created = True
+        if dictionary:
+            for i in dictionary:
+                if name == i["username"]:
+                    created = True
+        else:
+            created = False
         if created == False:
             break
         print("That username is already being used. ")

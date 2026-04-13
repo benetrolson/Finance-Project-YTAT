@@ -1,6 +1,5 @@
 from helper import *
 from b_functions import *
-from f_functions import *
 from j_functions import *
 import os
 
@@ -28,11 +27,11 @@ def main():
         while True:
             check = choice_input(["1", "2", "3", "4", "5", "6"], "Would you like to: \n1. View your entries \n2. Add an entry \n3. Delete an entry\n4. View statistics \n5. Change your currency \n6. Log out \n> ")
             if check == "1":
-                view_entries(user)
+                user.view_entries()
             elif check == "2":
-                user.additem(user)
+                user.additem()
             elif check == "3":
-                user.removeitem(user)
+                user.removeitem()
             elif check == "4":
                 choice = choice_input(["1", "2"], "Would you like to \n1. View a bar chart \n2. View a pie chart \n> ")
                 if choice == "1":
@@ -40,6 +39,6 @@ def main():
                 elif choice == "2":
                     piegraph(user.categories, user.expenses)
             elif check == "5":
-                currchange(user)
+                user.currchange()
             else:
                 break
