@@ -5,7 +5,9 @@ import pandas as pd # pyright: ignore[reportMissingModuleSource, ModuleNotFoundE
 
 def csv_to_dictionary(path):
     dictionary = csv_to_dict(path)
-    return Budget(dictionary[0], dictionary[1], dictionary[2], dictionary[3])
+    if not dictionary:
+        return Budget([], [], [], "USD")
+    return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"])
 
 def dict_to_csv(budget, path):
     df = pd.DataFrame({"income": budget.income, "expenses": budget.expenses, "savings": budget.savings, "currency": budget.current_currencies})
@@ -104,16 +106,12 @@ def password():
             print("You found the easter egg! Don't use it again. ")
         if password in passwords:
             print("That is so boring and typical. Why did you choose this password? Get more creative. I don't really like that you did this. ")
-        check = choice_input(['yes','y','no','n'],"Are you satisfied with your password? ")
-        if check in ["yes",'y']:
+        check = choice_input(['yes','y', 'Yes', 'Y','no','n', 'No', 'N'],"Are you satisfied with your password? ")
+        if check in ["yes",'y', 'Yes', 'Y']:
             return password
 
 def user_creator(path):
-    try:
-        dictionary = csv_to_dictionary(path)
-    except:
-        dictionary = []
-
+    dictionary = csv_to_dict(path)
     while True:
         created = False
         name = input("What will your username be? ")
@@ -133,7 +131,7 @@ def user_creator(path):
     return name
 
 def user_sign_in(path):
-    dictionary = csv_to_dictionary(path)
+    dictionary = csv_to_dict(path)
     while True:
         username = input("Enter Username: ")
         for i in dictionary:
