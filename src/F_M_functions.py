@@ -17,11 +17,11 @@ class Budget:
         self.savings = savings
         self.current_currencies = current_currencies
         self.budgets = budgets
-
-	#addItem(self)
-    def additem(self):
-        print("Is this an:\n1. Income\n2. Saving\n3. Expense")
-        choice = inputchecker(3)
+    
+    def selectentry(self):
+        # Used to get a specific entry as an object
+        print("Is this an:\n1. Income\n2. Saving\n3. Expense\n4. Budget\n")
+        choice = inputchecker(4)
         match choice:
             case 1:
                 entrytype = "income"
@@ -29,9 +29,44 @@ class Budget:
                 entrytype = "saving"
             case 3: 
                 entrytype = "expense"
+            case 4:
+                entrytype = "budget"
+            
+        name = input("What is the name of the entry?\n")
+
+        if entrytype == "expense":
+            if name in self.expenses.keys():
+                return self.expenses[name]
+        elif entrytype == "income":
+            if name in self.incomes.keys():
+                return self.incomes[name]
+        elif entrytype == "saving":
+            if name in self.savings.keys():
+                return self.savings[name]
+        elif entrytype == "budget":
+            if name in self.budgets.keys():
+                return self.budgets[name]
+        else:
+            print("It seems that this entry doesn't exist! Maybe you made a typo?")
+
+
+	#addItem(self)
+    def additem(self):
+        # Used to add items (can be savings, incomes, expenses, or budgets)
+        print("Is this an:\n1. Income\n2. Saving\n3. Expense\n 4. Budget")
+        choice = inputchecker(4)
+        match choice:
+            case 1:
+                entrytype = "income"
+            case 2:
+                entrytype = "saving"
+            case 3: 
+                entrytype = "expense"
+            case 4:
+                entrytype = "budget"
 
         itemname = input("What is the name of this item:\n")
-        print("1. USD\n2. IRR\n3. EUR\n4. JPY\n5. GBP\n6. CHF\n7. CAD\n8. AUD\n9. SEK")
+        print("What currency is this item in?:\n\n1. USD\n2. IRR\n3. EUR\n4. JPY\n5. GBP\n6. CHF\n7. CAD\n8. AUD\n9. SEK")
         curr = inputchecker(9)
 
         match curr:
@@ -54,7 +89,7 @@ class Budget:
             case 9:
                 currency = "SEK"
 
-        itemscost = input("How much money was this item (in the currency you inputted earlier)? (if it's an expense, put a negative number):\n")
+        itemscost = input("How much money was this item in the currency you inputted earlier (if saving, how much have you already saved)?:\n")
         itemscost = gummysint(itemscost)
 
         category = input("What is the category (ex: transport, entertainment, etc) of this item?:\n")
@@ -71,10 +106,13 @@ class Budget:
             self.savings[itemname] = Saving(itemname, saveamount , currency, category, todaysday, itemscost)
         elif entrytype == "expense":
             self.expenses[itemname] = Expense(itemname, itemscost, currency, category, todaysday)
+        elif entrytype == "budget":
+            self.budgets[itemname] = BudgetEntry(itemname, itemscost, currency, category, todaysday)
 	
     def removeitem(self):
-        print("Is this an:\n1. Income\n2. Saving\n3. Expense")
-        choice = inputchecker(3)
+        # used to remove any entries not wanted
+        print("Is this an:\n1. Income\n2. Saving\n3. Expense\n4. Budget")
+        choice = inputchecker(4)
         match choice:
             case 1:
                 entrytype = "income"
@@ -82,6 +120,8 @@ class Budget:
                 entrytype = "saving"
             case 3: 
                 entrytype = "expense"
+            case 4:
+                entrytype = "budget"
 
         itemname = input("What is the name of this item:\n")
 
@@ -91,14 +131,17 @@ class Budget:
             self.savings.pop(itemname)
         elif entrytype == "expense":
             self.expenses.pop(itemname)
+        elif entrytype == "budget":
+            self.budgetEntry.pop(itemname)
         else:
             print("That item likely does not exist :(")
     
     def view_entries(self):
+        # Used to view the selected kind of entry
         print("What kind of entry would you like to view?\n")
-        print("1. Income\n2. Expenses\n3. Savings\n4. All Entries")
+        print("1. Income\n2. Expenses\n3. Savings\n4.Budgets\n5. All Entries")
 
-        choice = inputchecker(4)
+        choice = inputchecker(5)
 
         if choice == 1:
             incomeskeys = self.incomes.keys()
@@ -113,13 +156,35 @@ class Budget:
             for saving in savings:
                 print(self.savings[saving])
         elif choice == 4:
-            entries = self.incomes.keys() + self.expenses.keys() + self.savings.keys()
+            budgets = self.budgets.keys()
+            for budget in budgets:
+                print(self.budgets[budget])
+                self.ViewTotals(expenses=self.expenses, incomes=self.incomes)
+        elif choice == 5:
+            inclist = self.incomes.keys()
+            explist = self.expenses.keys()
+            savlist = self.savings.keys()
+            budlist = self.budgets.keys()
+            entries = []
+            entries.extend(inclist)
+            entries.extend(explist)
+            entries.extend(savlist)
+            entries.extend(budlist)
+
             for entry in entries:
-                print(self.entries[entry])
+                try:
+                    print(self.expenses[entry])
+                except:
+                    try:
+                         print(self.incomes[entry])
+                    except:
+                        print(sel)
+                
         else:
             print("Invalid choice. Please try again.")
 
     class ViewTotals:
+        # allows for the user to view totals for expenses and incomes
         def __init__(self, expenses, incomes):
             self.expenses = expenses
             self.incomes = incomes
@@ -187,37 +252,9 @@ class MoneyItem:
             case 9:
                 currency = "SEK"
 
-        print("Is the entry an:\n1. Income\n2. Saving\n3. Expense")
+        self.convert(currency)
 
-        entrytype = inputchecker(3)
-
-        match entrytype:
-            case 1:
-                entrytype = "income"
-            case 2:
-                entrytype = "saving"
-            case 3: 
-                entrytype = "expense"
-
-        while True:
-            entry = input("What is the name of the entry you want to change?(Enter 'EXIT' to go back)\n")
-
-            entries = self.income.keys()+self.expense.keys()+self.saving.keys()
-
-            if entry == "EXIT" or entry == "exit":
-                return
-            elif entry in entries:
-                break
-            else:
-                print("Looks like that entry doesn't exist! Maybe you made a typo? Try again!")
-        
-        if entrytype == "income":
-            self.income[entry].convert()
-        elif entrytype == "saving":
-            self.saving[entry].convert()
-        elif entrytype == "expense":
-            self.expense[entry].convert()
-
+    # Gets the currencies, and does unit conversions to get the new values
     def convert(self, new_currency):
         if self.currency != "USD":
             df = pd.read_csv("docs/currency.csv", skipinitialspace=True)
@@ -229,8 +266,8 @@ class MoneyItem:
         df = pd.read_csv("docs/currency.csv", skipinitialspace=True)
         rate = df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0]
         self.amount *= rate
-        print(df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0])
-        print(self.amount)
+        print(f"Conversion Rate: {df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0]}")
+        print(f"New Amount {self.amount:.2f} in {new_currency}")
         self.currency = new_currency
 
 
@@ -268,7 +305,7 @@ class Income(MoneyItem):
 #__str__:
     def __str__(self):
 # f“Income: {self.name} made you {self.amount}” 
-        return f"Income: {self.name} made you {self.amount}" 
+        return f"Income: {self.name} made you {self.amount} {self.currency}" 
 
 #class Expense(MoneyItem)
 class Expense(MoneyItem):

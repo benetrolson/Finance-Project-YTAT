@@ -2,6 +2,10 @@
 
 This project was made for keeping track of finances
 
+##
+
+![Image of project running correctly](CodeRunning.png)
+
 ## How to Use the Project
 
 1. Sign up
@@ -23,9 +27,8 @@ This project was made for keeping track of finances
 
 ## Installation Instructions
 
-1. Install bcrypt (pip install bcrypt)
-2. Install matplotlib (pip install matplotlib)
-3. Install pandas (pip install pandas)
+1. Install matplotlib (pip install matplotlib)
+2. Install pandas (pip install pandas)
 
 ## Contributors
 

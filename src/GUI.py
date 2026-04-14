@@ -128,7 +128,6 @@ def Doc5():
     root.VEntLabel = tk.Label(root, text = '', font = ('calibre',10,'bold'))
     #This label is where we will display the diffrent enteries 
 
-    
 def end_The_program():
     dict_to_csv(root.user)
     root.destroy
@@ -139,14 +138,6 @@ root.btn.place(relx=.5, rely=0.4, anchor="n")
 root.exiting = tk.Button(root, text="Exit program", command=end_The_program)
 root.exiting.place(relx=.05, rely=0.05, anchor="n")
 
-
-
 root.user = csv_to_dictionary()
-
-
-
-
-
-
 
 root.mainloop()
