@@ -1,4 +1,5 @@
-from helper import *
+#We are not using this. I am not sure if we want to delete this. 
+"""from helper import *
 from b_functions import *
 from F_M_functions import *
 from j_functions import *
@@ -120,4 +121,4 @@ def GuiEdt_password(password,LabelToWriteTo):
             LabelToWriteTo["text"]="That is so boring and typical. Why did you choose this password? Get more creative. I don't really like that you did this. "
         check = choice_input(['yes','y','no','n'],"Are you satisfied with your password? ")
         if check in ["yes",'y']:
-            return password
+            return password"""

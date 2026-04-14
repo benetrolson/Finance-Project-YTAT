@@ -17,7 +17,15 @@ class Budget:
         self.savings = savings
         self.current_currencies = current_currencies
         self.budgets = budgets
-    
+        self.categories = []
+        for i in self.incomes:
+            self.categories.append(self.incomes[i].category)
+        for i in self.expenses:
+            self.categories.append(self.expenses[i].category)
+        for i in self.savings:
+            self.categories.append(self.savings[i].category)
+        for i in self.budgets:
+            self.categories.append(self.budgets[i].category)
     def selectentry(self):
         # Used to get a specific entry as an object
         print("Is this an:\n1. Income\n2. Saving\n3. Expense\n4. Budget\n")
@@ -108,7 +116,9 @@ class Budget:
             self.expenses[itemname] = Expense(itemname, itemscost, currency, category, todaysday)
         elif entrytype == "budget":
             self.budgets[itemname] = BudgetEntry(itemname, itemscost, currency, category, todaysday)
-	
+
+        self.categories.append(category)
+
     def removeitem(self):
         # used to remove any entries not wanted
         print("Is this an:\n1. Income\n2. Saving\n3. Expense\n4. Budget")
@@ -127,15 +137,19 @@ class Budget:
 
         if entrytype == "income":
             self.incomes.pop(itemname)
+            self.categories.remove(self.incomes[itemname]["category"].category)
         elif entrytype == "saving":
             self.savings.pop(itemname)
+            self.categories.remove(self.savings[itemname]["category"].category)
         elif entrytype == "expense":
             self.expenses.pop(itemname)
+            self.categories.remove(self.expenses[itemname]["category"].category)
         elif entrytype == "budget":
-            self.budgetEntry.pop(itemname)
+            self.budgets.pop(itemname)
+            self.categories.remove(self.budgets[itemname]["category"].category)
         else:
             print("That item likely does not exist :(")
-    
+
     def view_entries(self):
         # Used to view the selected kind of entry
         print("What kind of entry would you like to view?\n")
@@ -178,7 +192,13 @@ class Budget:
                     try:
                          print(self.incomes[entry])
                     except:
-                        print(sel)
+                        try:
+                            print(self.savings[entry])
+                        except:
+                            try:
+                                print(self.budgets[entry])
+                            except:
+                                pass
                 
         else:
             print("Invalid choice. Please try again.")

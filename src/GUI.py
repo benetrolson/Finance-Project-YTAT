@@ -19,8 +19,8 @@ name_var=tk.StringVar()
 passw_var=tk.StringVar()
 Entriescatagories=tk.StringVar()
 
-
-#Here is the concept is to make pre loaded and planed areas where we will load with the diffrent labels and buttons
+#We have no need for this one anymore. 
+"""#Here is the concept is to make pre loaded and planed areas where we will load with the diffrent labels and buttons
 def submiting_password():
     #Replace this with the sign in system that checks it
     root.bools = 0
@@ -34,7 +34,7 @@ def submiting_password():
         Doc4()
     else:
         root.wrg_label = tk.Label(root, text = 'Incorrect password or username', font = ('calibre',10,'bold'))
-        root.wrg_label.place(relx=0.5, rely=0.2, anchor="n")
+        root.wrg_label.place(relx=0.5, rely=0.2, anchor="n")"""
 def Doc4():
     #Clearing
     root.btn.place_forget()
